@@ -1,5 +1,12 @@
 @extends('layouts.app')
-
+@push('styles')
+<style>
+    .fc-day-sat, .fc-day-sun {
+        background-color: red !important; /* Cambia el color de fondo de los sábados y domingos */
+        color: white; /* Opcional: cambia el color del texto */
+    }
+</style>
+@endpush
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -17,12 +24,16 @@
 
 
 
+
+
+
 @push('scripts')
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        var initialLocaleCode = 'es';
         const calendarEl = document.getElementById('calendar');
         
         var eventsData = @json($events);
@@ -30,12 +41,20 @@
         const calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'timeGridWeek',
             slotMinTime: '07:30',
+            headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+            
+            locale: initialLocaleCode,
             events: eventsData 
         });            
 
         calendar.render();
     });
 </script>
+
 @endpush
 @endsection
 
