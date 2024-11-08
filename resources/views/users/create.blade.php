@@ -26,7 +26,7 @@
             <select name="rol" class="form-control" required>
                 <option value="socio">Socio</option>
                 <option value="tienda">Tienda</option>
-                <option value="administración">Administración</option>
+                <option value="admin">Admin</option>
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Guardar</button>

@@ -23,7 +23,7 @@
             <select name="rol" class="form-control" required>
                 <option value="socio" {{ $user->rol == 'socio' ? 'selected' : '' }}>Socio</option>
                 <option value="tienda" {{ $user->rol == 'tienda' ? 'selected' : '' }}>Tienda</option>
-                <option value="administración" {{ $user->rol == 'administración' ? 'selected' : '' }}>Administración</option>
+                <option value="admin" {{ $user->rol == 'admin' ? 'selected' : '' }}>Admin</option>
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Actualizar</button>
