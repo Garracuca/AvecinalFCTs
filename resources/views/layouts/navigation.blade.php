@@ -16,9 +16,12 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                      <!-- Enlace a Usuarios -->
+                <!-- Enlace a Usuarios, visible solo para administradores -->
+                @if(Auth::user() && Auth::user()->isAdmin())
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                         {{ __('Usuarios') }}
                     </x-nav-link>
+                @endif   
 
                     <!-- Enlace a Semanas -->
                     <x-nav-link :href="route('weeks.index')" :active="request()->routeIs('weeks.index')">
