@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @push('styles')
 <style>
-    .fc-day-sat, .fc-day-sun {
+     .fc-day-sun {
         background-color: red !important; /* Cambia el color de fondo de los sábados y domingos */
         color: white; /* Opcional: cambia el color del texto */
     }
@@ -46,9 +46,35 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-            
+                businessHours: true,
+            businessHours: [ 
+  {
+    daysOfWeek: [ 1, 3 ,4], // Lunes, Miércoles y Jueves
+    startTime: '10:00', 
+    endTime: '13:30' 
+  },
+  {
+    daysOfWeek: [ 2, 5 ], // Martes y viernes
+    startTime: '10:00', 
+    endTime: '20:30' 
+  }, 
+  {
+    daysOfWeek: [ 1, 3 ,4], // Lunes, Miércoles y Jueves
+    startTime: '17:00', 
+    endTime: '20:30' 
+  },
+  {
+    daysOfWeek: [ 6],
+    startTime: '10:00', 
+    endTime: '13:30' 
+  }
+],
+            firstDay: 1,
             locale: initialLocaleCode,
-            events: eventsData 
+            events: eventsData ,
+            eventColor: 'blue',
+            weekNumbers: true,
+            weekText: 'S'
         });            
 
         calendar.render();
