@@ -53,4 +53,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Turn::class);
     }
+
+   // Método para verificar si el usuario es admin
+   public function isAdmin()
+   {
+       return $this->rol === 'admin';
+   }
 }
