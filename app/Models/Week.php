@@ -21,9 +21,9 @@ class Week extends Model
         return $this->hasMany(Turn::class);
     }
 
-    // Relación muchos a uno con Meses
-    public function month()
+    // Relación muchos a muchos con Meses
+    public function months()
     {
-        return $this->belongsTo(Month::class);
+        return $this->belongsToMany(Month::class, 'month_week');
     }
 }

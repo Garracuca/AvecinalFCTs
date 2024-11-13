@@ -17,6 +17,7 @@ class Month extends Model
     // Relación uno a muchos con Semanas
     public function weeks()
     {
-        return $this->hasMany(Week::class);
+        return $this->belongsToMany(Week::class, 'month_week');
     }
+   
 }
