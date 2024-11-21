@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TypeTurn extends Model
+class TypeShift extends Model
 {
     use HasFactory;
 
@@ -14,8 +14,8 @@ class TypeTurn extends Model
     ];
 
     // Relación uno a muchos con Turnos
-    public function turns()
+    public function shifts()
     {
-        return $this->hasMany(Turn::class);
+        return $this->hasMany(Shift::class);
     }
 }

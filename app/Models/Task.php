@@ -14,8 +14,8 @@ class Task extends Model
     ];
 
     // Relación muchos a muchos con Turnos
-    public function turns()
+    public function shift()
     {
-        return $this->belongsToMany(Turn::class, 'task_turn');
+        return $this->belongsToMany(Shift::class, 'task_shift');
     }
 }

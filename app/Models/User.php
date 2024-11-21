@@ -49,9 +49,9 @@ class User extends Authenticatable
     }
 
     // Relación uno a muchos con Turnos
-    public function turns()
+    public function shifts()
     {
-        return $this->hasMany(Turn::class);
+        return $this->hasMany(Shift::class);
     }
 
    // Método para verificar si el usuario es admin

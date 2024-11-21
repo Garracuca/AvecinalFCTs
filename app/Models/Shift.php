@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Turn extends Model
+class Shift extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'type_turn_id',
+        'type_shift_id',
         'date',
         'hour',
         'duration',
@@ -20,9 +20,9 @@ class Turn extends Model
     ];
 
     // Relación muchos a uno con el Tipo de Turno
-    public function typeTurn()
+    public function typeShift()
     {
-        return $this->belongsTo(TypeTurn::class);
+        return $this->belongsTo(TypeShift::class,'type_shift_id');
     }
 
     // Relación muchos a uno con Usuarios
@@ -40,6 +40,6 @@ class Turn extends Model
     // Relación muchos a muchos con las Tareas
     public function tasks()
     {
-        return $this->belongsToMany(Task::class, 'task_turn');
+        return $this->belongsToMany(Task::class, 'task_shift');
     }
 }

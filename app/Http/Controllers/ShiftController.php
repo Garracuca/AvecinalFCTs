@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Turn;
-use App\Models\TypeTurn;
+use App\Models\Shift;
+use App\Models\TypeShift;
 use App\Models\User;
 use App\Models\Week;
 use Illuminate\Http\Request;
 
-class TurnController extends Controller
+class ShiftController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,8 @@ class TurnController extends Controller
     // Mostrar todos los turnos
     public function index()
     {
-        $turns = Turn::with(['typeTurn', 'user', 'week'])->get();
-        return view('turns.index', compact('turns'));
+        $shift = Shift::with(['typeShift', 'user', 'week'])->get();
+        return view('shift.index', compact('shift'));
     }
 
     /**
@@ -28,10 +28,10 @@ class TurnController extends Controller
       {
           // Cargar usuarios y tipos de turnos
           $users = User::all();
-          $typeTurns = TypeTurn::all();
+          $typeShift = TypeShift::all();
           $weeks = Week::all();
   
-          return view('turns.create', compact('users', 'typeTurns', 'weeks'));
+          return view('shift.create', compact('users', 'typeShift', 'weeks'));
       }
 
     /**
@@ -41,7 +41,7 @@ class TurnController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'type_turn_id' => 'required|exists:type_turns,id',
+            'type_shift_id' => 'required|exists:type_shift,id',
             'date' => 'required|date',
             'hour' => 'required',
             'duration' => 'required|integer',
@@ -49,42 +49,42 @@ class TurnController extends Controller
             'week_id' => 'required|exists:weeks,id',
         ]);
 
-        Turn::create($validatedData);
+        Shift::create($validatedData);
 
-        return redirect()->route('turns.index')->with('success', 'Turno creado correctamente.');
+        return redirect()->route('shift.index')->with('success', 'Turno creado correctamente.');
     }
 
     /**
      * Display the specified resource.
      */
    // Mostrar un turno en particular
-   public function show(Turn $turn)
+   public function show(Shift $shift)
    {
-    $turn->load('typeTurn', 'user', 'week');
-    return view('turns.show', compact('turn'));
+    $shift->load('typeShift', 'user', 'week');
+    return view('shift.show', compact('shift'));
    }
 
     /**
      * Show the form for editing the specified resource.
      */
     // Mostrar formulario para editar un turno
-    public function edit(Turn $turn)
+    public function edit(Shift $shift)
     {
         $users = User::all();
-        $typeTurns = TypeTurn::all();
+        $typeShift = TypeShift::all();
         $weeks = Week::all();
 
-        return view('turns.edit', compact('turn', 'users', 'typeTurns', 'weeks'));
+        return view('shift.edit', compact('shift', 'users', 'typeShift', 'weeks'));
     }
 
     /**
      * Update the specified resource in storage.
      */
     // Actualizar un turno
-    public function update(Request $request, Turn $turn)
+    public function update(Request $request, Shift $shift)
     {
         $validatedData = $request->validate([
-            'type_turn_id' => 'required|exists:type_turns,id',
+            'type_shift_id' => 'required|exists:type_shift,id',
             'date' => 'required|date',
             'hour' => 'required',
             'duration' => 'required|integer',
@@ -92,17 +92,17 @@ class TurnController extends Controller
             'week_id' => 'required|exists:weeks,id',
         ]);
 
-        $turn->update($validatedData);
+        $shift->update($validatedData);
 
-        return redirect()->route('turns.index')->with('success', 'Turno actualizado correctamente.');
+        return redirect()->route('shift.index')->with('success', 'Turno actualizado correctamente.');
     }
     /**
      * Remove the specified resource from storage.
      */
     // Eliminar un turno
-    public function destroy(Turn $turn)
+    public function destroy(Shift $shift)
     {
-        $turn->delete();
-        return redirect()->route('turns.index')->with('success', 'Turno eliminado correctamente.');
+        $shift->delete();
+        return redirect()->route('shift.index')->with('success', 'Turno eliminado correctamente.');
     }
 }

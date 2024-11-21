@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TypeShift;
 use App\Models\TypeTurn;
 use Illuminate\Http\Request;
 
-class TypeTurnController extends Controller
+class TypeShiftController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +14,8 @@ class TypeTurnController extends Controller
     // Mostrar todos los tipos de turnos
     public function index()
     {
-        $typeTurns = TypeTurn::all();
-        return view('type_turns.index', compact('typeTurns'));
+        $typeTurns = TypeShift::all();
+        return view('type_Shift.index', compact('typeShift'));
     }
 
     /**
@@ -23,7 +24,7 @@ class TypeTurnController extends Controller
     // Mostrar formulario para crear un nuevo tipo de turno
     public function create()
     {
-        return view('type_turns.create');
+        return view('type_Shift.create');
     }
 
     /**
@@ -33,45 +34,45 @@ class TypeTurnController extends Controller
    public function store(Request $request)
    {
        $validatedData = $request->validate([
-           'name' => 'required|unique:type_turns',
+           'name' => 'required|unique:type_Shift',
        ]);
 
-       TypeTurn::create($validatedData);
+       TypeShift::create($validatedData);
 
-       return redirect()->route('type_turns.index')->with('success', 'Tipo de turno creado correctamente.');
+       return redirect()->route('type_Shift.index')->with('success', 'Tipo de turno creado correctamente.');
    }
 
     /**
      * Display the specified resource.
      */
     // Mostrar un tipo de turno en particular
-    public function show(TypeTurn $typeTurn)
+    public function show(TypeShift $type_Shift)
     {
-        return view('type_turns.show', compact('typeTurn'));
+        return view('type_Shift.show', compact('type_Shift'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
     // Mostrar formulario para editar un tipo de turno
-    public function edit(TypeTurn $typeTurn)
+    public function edit(TypeShift $type_Shift)
     {
-        return view('type_turns.edit', compact('typeTurn'));
+        return view('type_Shift.edit', compact('type_Shift'));
     }
 
     /**
      * Update the specified resource in storage.
      */
     // Actualizar un tipo de turno
-    public function update(Request $request, TypeTurn $typeTurn)
+    public function update(Request $request, TypeShift $type_Shift)
     {
         $validatedData = $request->validate([
-            'name' => 'required|unique:type_turns,name,' . $typeTurn->id,
+            'name' => 'required|unique:type_Shift,name,' . $type_Shift->id,
         ]);
 
-        $typeTurn->update($validatedData);
+        $type_Shift->update($validatedData);
 
-        return redirect()->route('type_turns.index')->with('success', 'Tipo de turno actualizado correctamente.');
+        return redirect()->route('type_Shift.index')->with('success', 'Tipo de turno actualizado correctamente.');
     }
 
 
@@ -79,9 +80,9 @@ class TypeTurnController extends Controller
      * Remove the specified resource from storage.
      */
     // Eliminar un tipo de turno
-    public function destroy(TypeTurn $typeTurn)
+    public function destroy(TypeShift $typeTurn)
     {
         $typeTurn->delete();
-        return redirect()->route('type_turns.index')->with('success', 'Tipo de turno eliminado correctamente.');
+        return redirect()->route('type_Shift.index')->with('success', 'Tipo de turno eliminado correctamente.');
     }
 }
