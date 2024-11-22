@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MonthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeekController;
 use App\Http\Middleware\CheckAdmin;
@@ -31,5 +32,7 @@ Route::middleware('auth')->group(function () {
 
 // Rutas para la gestión de semanas
 Route::resource('weeks', WeekController::class);
+
+Route::resource('shifts', ShiftController::class);
 
 require __DIR__.'/auth.php';

@@ -10,33 +10,24 @@ use Illuminate\Http\Request;
 
 class ShiftController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     // Mostrar todos los turnos
     public function index()
     {
-        $shift = Shift::with(['typeShift', 'user', 'week'])->get();
-        return view('shift.index', compact('shift'));
+        // Cargar turnos con sus relaciones
+        $shifts = Shift::with(['typeShift', 'user', 'week'])->get();
+        return view('shifts.index', ['shifts' => $shifts]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-      // Mostrar formulario para crear un nuevo turno
-      public function create()
-      {
-          // Cargar usuarios y tipos de turnos
-          $users = User::all();
-          $typeShift = TypeShift::all();
-          $weeks = Week::all();
-  
-          return view('shift.create', compact('users', 'typeShift', 'weeks'));
-      }
+    // Mostrar formulario para crear un nuevo turno
+    public function create()
+    {
+        $users = User::all();
+        $typeShifts = TypeShift::all();
+        $weeks = Week::all();
 
-    /**
-     * Store a newly created resource in storage.
-     */
+        return view('shifts.create', compact('users', 'typeShifts', 'weeks'));
+    }
+
     // Guardar un nuevo turno
     public function store(Request $request)
     {
@@ -51,35 +42,26 @@ class ShiftController extends Controller
 
         Shift::create($validatedData);
 
-        return redirect()->route('shift.index')->with('success', 'Turno creado correctamente.');
+        return redirect()->route('shifts.index')->with('success', 'Shift created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-   // Mostrar un turno en particular
-   public function show(Shift $shift)
-   {
-    $shift->load('typeShift', 'user', 'week');
-    return view('shift.show', compact('shift'));
-   }
+    // Mostrar un turno en particular
+    public function show(Shift $shift)
+    {
+        $shift->load('typeShift', 'user', 'week');
+        return view('shifts.show', compact('shift'));
+    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     // Mostrar formulario para editar un turno
     public function edit(Shift $shift)
     {
         $users = User::all();
-        $typeShift = TypeShift::all();
+        $typeShifts = TypeShift::all();
         $weeks = Week::all();
 
-        return view('shift.edit', compact('shift', 'users', 'typeShift', 'weeks'));
+        return view('shifts.edit', compact('shift', 'users', 'typeShifts', 'weeks'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     // Actualizar un turno
     public function update(Request $request, Shift $shift)
     {
@@ -94,15 +76,30 @@ class ShiftController extends Controller
 
         $shift->update($validatedData);
 
-        return redirect()->route('shift.index')->with('success', 'Turno actualizado correctamente.');
+        return redirect()->route('shifts.index')->with('success', 'Shift updated successfully.');
     }
-    /**
-     * Remove the specified resource from storage.
-     */
+
     // Eliminar un turno
     public function destroy(Shift $shift)
     {
         $shift->delete();
-        return redirect()->route('shift.index')->with('success', 'Turno eliminado correctamente.');
+        return redirect()->route('shifts.index')->with('success', 'Shift deleted successfully.');
+    }
+
+    // API para obtener turnos en formato JSON (compatible con FullCalendar)
+    public function shiftsApi()
+    {
+        $shifts = Shift::with('user', 'typeShift')
+            ->get()
+            ->map(function ($shift) {
+                return [
+                    'id' => $shift->id,
+                    'title' => $shift->typeShift->name . ' - ' . optional($shift->user)->name,
+                    'start' => $shift->date . 'T' . $shift->hour,
+                    'end' => $shift->date . 'T' . date('H:i', strtotime($shift->hour) + $shift->duration * 3600),
+                ];
+            });
+
+        return response()->json($shifts);
     }
 }

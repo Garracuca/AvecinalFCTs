@@ -9,6 +9,8 @@ class Shift extends Model
 {
     use HasFactory;
 
+     // Nombre personalizado de la tabla en la base de datos
+     protected $table = 'shift';
     protected $fillable = [
         'type_shift_id',
         'date',

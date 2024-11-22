@@ -30,9 +30,15 @@
 
                     <!-- Enlace a Meses -->
                     <x-nav-link :href="route('months.index')" :active="request()->routeIs('months.index')">
-                        {{ __('Turnos') }}
+                        {{ __('Meses') }}
                     </x-nav-link>
                 </div>
+
+                @if(Auth::user() && Auth::user()->isAdmin())
+                    <x-nav-link :href="route('shifts.index')" :active="request()->routeIs('shifts.index')">
+                        {{ __('Turnos') }}
+                    </x-nav-link>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
@@ -101,6 +107,9 @@
             <x-responsive-nav-link :href="route('months.index')" :active="request()->routeIs('months.index')">
                 {{ __('Meses') }}
             </x-responsive-nav-link>
+
+
+
         </div>
 
         <!-- Responsive Settings Options -->
