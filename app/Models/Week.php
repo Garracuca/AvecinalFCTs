@@ -12,18 +12,19 @@ class Week extends Model
     protected $fillable = [
         'start_date',
         'month_id',
-        'shift',
+       
     ];
 
-    // Relación uno a muchos con Turnos
-    public function shift()
-    {
-        return $this->hasMany(Shift::class);
-    }
 
     // Relación muchos a muchos con Meses
     public function months()
     {
         return $this->belongsToMany(Month::class, 'month_week');
     }
+
+        // Relación uno a muchos con los turnos
+        public function shifts()
+        {
+            return $this->hasMany(Shift::class, 'week_id'); 
+        }
 }
