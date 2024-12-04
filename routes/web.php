@@ -24,6 +24,8 @@ Route::middleware('auth')->group(function () {
     // Rutas de gestión de usuarios solo para el administrador
     Route::middleware([CheckAdmin::class])->group(function () {
         Route::resource('users', UserController::class);
+        Route::resource('shifts', ShiftController::class);
+       
     });
 
 });
@@ -33,5 +35,5 @@ Route::middleware('auth')->group(function () {
 // Rutas para la gestión de semanas
 Route::resource('weeks', WeekController::class);
 
-Route::resource('shifts', ShiftController::class);
+
 require __DIR__.'/auth.php';

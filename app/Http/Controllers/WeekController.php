@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Month;
 use App\Models\Week;
 use Illuminate\Http\Request;
 
@@ -30,16 +31,22 @@ class WeekController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'start_date' => 'required|date',
-            'month_id' => 'required|exists:months,id',
+        $month = Month::find($request->month_id);
+    
+        if (!$month) {
+            return redirect()->back()->withErrors('El mes seleccionado no existe.');
+        }
+    
+        // Insertar la semana
+        Week::create([
+            'start_date' => $request->start_date,
+            'month_id' => $request->month_id,
         ]);
-
-        Week::create($request->all());
-
-        return redirect()->route('weeks.index')->with('success', 'Week created successfully.');
+    
+        return redirect()->route('weeks.index')->with('success', 'Semana creada correctamente.');
     }
 
+    
     /**
      * Show the form for editing the specified week.
      */

@@ -15,11 +15,14 @@ class Week extends Model
        
     ];
 
+    protected $casts = [
+        'start_date' => 'date', // Esto convierte start_date a una instancia de Carbon
+    ];
 
     // Relación muchos a muchos con Meses
-    public function months()
+    public function month()
     {
-        return $this->belongsToMany(Month::class, 'month_week');
+        return $this->belongsTo(Month::class);
     }
 
         // Relación uno a muchos con los turnos
