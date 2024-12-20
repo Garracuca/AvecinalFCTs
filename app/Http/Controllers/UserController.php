@@ -38,7 +38,8 @@ class UserController extends Controller
              'name' => 'required',
              'email' => 'required|email|unique:users',
              'password' => 'required',
-             'rol' => 'required',
+             'rol' => 'nullable|string|in:socio,tienda,admin',
+
          ]);
  
          $validatedData['password'] = bcrypt($validatedData['password']);
@@ -68,27 +69,40 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // Actualizar un usuario
-    public function update(Request $request, User $user)
-    {
-        $validatedData = $request->validate([
-            'numero_socio' => 'required|unique:users,numero_socio,' . $user->id,
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'sometimes',
-            'rol' => 'required',
-        ]);
+  
+   // Actualizar un usuario
+        public function update(Request $request, User $user)
+        {
+            // Validar los datos ingresados
+            $validatedData = $request->validate([
+                'numero_socio' => 'nullable|unique:users,numero_socio,' . $user->id,
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $user->id,
+                'password' => 'nullable|string|min:8', // La contraseña es opcional pero debe tener al menos 8 caracteres
+                'rol' => 'required|string|in:socio,tienda,admin',
 
-        if ($request->has('password') && $request->password) {
-            $validatedData['password'] = bcrypt($request->password);
-        } else {
-            unset($validatedData['password']);
+            ]);
+
+            // Si se proporciona una contraseña, encriptarla
+            if ($request->filled('password')) {
+                $validatedData['password'] = bcrypt($request->password);
+            } else {
+                unset($validatedData['password']); // Elimina la clave si no se actualiza la contraseña
+            }
+              // Si el rol no está presente en el request, mantener el rol actual
+            if (!$request->has('rol')) {
+                $validatedData['rol'] = $user->rol; // Mantener el rol existente
+            }
+
+            
+
+            // Actualizar el usuario con los datos validados
+            $user->update($validatedData);
+
+            // Redirigir con un mensaje de éxito
+            return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
         }
 
-        $user->update($validatedData);
-
-        return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
-    }
 
     /**
      * Remove the specified resource from storage.

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('date'); // Fecha del turno
             $table->time('hour'); // Hora del turno
             $table->integer('duration'); // Duración del turno
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Usuario que realiza el turno (socio)
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('cascade'); // Usuario puede ser null inicialmente
             $table->boolean('completed')->default(false); // Estado de si el turno fue realizado o no
             $table->foreignId('week_id')->constrained('weeks')->onDelete('cascade'); // Relación con la semana a la que pertenece el turno
             $table->timestamps(); // Tiempos de creación y actualización

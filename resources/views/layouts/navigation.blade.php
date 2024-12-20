@@ -4,16 +4,17 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-                    </a>
-                </div>
+                 <!-- Logo -->
+                 <div class="flex justify-center mt-6">
+                  <a href="{{ url('/') }}">
+                      <img src="{{ asset('img/Logo.png') }}" alt="Logo MatchPoint" class="h-10">
+                   </a>
+                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                       {{ __('Inicio') }}
                     </x-nav-link>
                      <!-- Enlace a Usuarios -->
                 <!-- Enlace a Usuarios, visible solo para administradores -->
@@ -25,18 +26,28 @@
 
                     <!-- Enlace a Semanas -->
                     <x-nav-link :href="route('weeks.index')" :active="request()->routeIs('weeks.index')">
-                        {{ __('Semanas') }}
+                        {{ __('Turno Reservados') }}
                     </x-nav-link>
 
                     <!-- Enlace a Meses -->
                     <x-nav-link :href="route('months.index')" :active="request()->routeIs('months.index')">
-                        {{ __('Meses') }}
+                        {{ __('Calendario') }}
                     </x-nav-link>
 
                     <!-- Enlace a Turnos (Shift) -->
                     <x-nav-link :href="route('shifts.index')" :active="request()->routeIs('shifts.index')">
-                        {{ __('Turnos') }}
+                        {{ __('Crear Turnos') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('contacto')" :active="request()->routeIs('contacto')">
+                                {{ __('Contacto ') }}
+                    </x-nav-link>
+                    
+                        <x-nav-link :href="route('serSocio')" :active="request()->routeIs('serSocio')">
+                            {{ __('Ser Socio') }}
+                        </x-nav-link>
+                    
+               
                 </div>
 
                

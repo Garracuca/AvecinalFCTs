@@ -55,4 +55,10 @@ class User extends Authenticatable
    {
        return $this->rol === 'admin';
    }
+   public function shifts()
+{
+    return $this->hasMany(Shift::class, 'user_id');
+}
+
+
 }

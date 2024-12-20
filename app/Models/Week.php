@@ -25,9 +25,17 @@ class Week extends Model
         return $this->belongsTo(Month::class);
     }
 
-        // Relación uno a muchos con los turnos
-        public function shifts()
-        {
-            return $this->hasMany(Shift::class, 'week_id'); 
-        }
+    // Relación uno a muchos con los turnos
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class, 'week_id'); 
+    }
+
+    public function getWeekLabelAttribute()
+    {
+        $startDate = $this->start_date; // Fecha de inicio de la semana
+    $firstDayOfMonth = $startDate->copy()->startOfMonth();
+    $weekNumber = ceil($startDate->diffInDays($firstDayOfMonth) / 7) + 1; // Cálculo más preciso
+    return chr(64 + $weekNumber); // Convierte el número de la semana a A, B, C...
+}
 }

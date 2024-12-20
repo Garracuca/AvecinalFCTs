@@ -1,34 +1,103 @@
-{{-- resources/views/users/create.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
-    <h1>Crear Usuario</h1>
-    <form action="{{ route('users.store') }}" method="POST">
+<div class="container my-5" style="max-width: 800px;">
+    <!-- Título -->
+    <h1 class="text-center text-primary mb-4" style="font-size: 2.5rem; font-weight: bold;">Crear Usuario</h1>
+
+    <!-- Mensajes de error -->
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <!-- Formulario de creación -->
+    <form action="{{ route('users.store') }}" method="POST" class="p-4 border rounded" style="background-color: #f8f9fa;">
         @csrf
-        <div class="form-group">
-            <label for="numero_socio">Número de socio:</label>
-            <input type="text" name="numero_socio" class="form-control" value="{{ old('number') }}">
+
+        <div class="mb-3">
+            <label for="numero_socio" class="form-label">Número de socio</label>
+            <input type="text" name="numero_socio" id="numero_socio" class="form-control" value="{{ old('numero_socio') }}">
         </div>
-        <div class="form-group">
-            <label for="name">Nombre:</label>
-            <input type="text" name="name" class="form-control" required>
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Nombre</label>
+            <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" required>
         </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" name="email" class="form-control" required>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
         </div>
-        <div class="form-group">
-            <label for="password">Contraseña:</label>
-            <input type="password" name="password" class="form-control" required>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" name="password" id="password" class="form-control" required>
         </div>
-        <div class="form-group">
-            <label for="rol">Rol:</label>
-            <select name="rol" class="form-control" required>
+
+        <div class="mb-3">
+            <label for="rol" class="form-label">Rol</label>
+            <select name="rol" id="rol" class="form-control">
                 <option value="socio">Socio</option>
                 <option value="tienda">Tienda</option>
                 <option value="admin">Admin</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Guardar</button>
+
+        <!-- Botones de acción -->
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-success px-4 py-2" style="font-size: 1.2rem; border-radius: 8px;">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+            <a href="{{ route('users.index') }}" class="btn btn-secondary px-4 py-2" style="font-size: 1.2rem; border-radius: 8px;">
+                <i class="fas fa-arrow-left"></i> Atrás
+            </a>
+        </div>
     </form>
+</div>
 @endsection
+
+<style>
+    h1 {
+        font-family: 'Arial', sans-serif;
+        font-weight: bold;
+    }
+
+    .form-control {
+        font-size: 1.1rem;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+    }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .btn {
+        font-size: 1rem;
+        font-weight: bold;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        box-shadow: 0 0 10px rgba(33, 136, 56, 0.5);
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        box-shadow: 0 0 10px rgba(90, 98, 104, 0.5);
+    }
+
+    .alert {
+        font-size: 1.1rem;
+        border-radius: 8px;
+    }
+</style>

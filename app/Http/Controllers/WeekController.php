@@ -14,7 +14,9 @@ class WeekController extends Controller
     public function index()
     {
         // Cargar las semanas junto con sus turnos asociados
-        $weeks = Week::with('shift')->get();
+        //$weeks = Week::with('shifts')->get();
+        // Cargar semanas con turnos y usuarios asociados
+        $weeks = Week::with('shifts.user')->get();
         return view('weeks.index', compact('weeks'));
     }
 

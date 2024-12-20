@@ -33,49 +33,29 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var initialLocaleCode = 'es';
         const calendarEl = document.getElementById('calendar');
-        
-        var eventsData = @json($events);
-
         const calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'timeGridWeek',
-            slotMinTime: '07:30',
+            initialView: 'dayGridMonth',
+            locale: 'es',
             headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
-                businessHours: true,
-            businessHours: [ 
-  {
-    daysOfWeek: [ 1, 3 ,4], // Lunes, Miércoles y Jueves
-    startTime: '10:00', 
-    endTime: '13:30' 
-  },
-  {
-    daysOfWeek: [ 2, 5 ], // Martes y viernes
-    startTime: '10:00', 
-    endTime: '20:30' 
-  }, 
-  {
-    daysOfWeek: [ 1, 3 ,4], // Lunes, Miércoles y Jueves
-    startTime: '17:00', 
-    endTime: '20:30' 
-  },
-  {
-    daysOfWeek: [ 6],
-    startTime: '10:00', 
-    endTime: '13:30' 
-  }
-],
-            firstDay: 1,
-            locale: initialLocaleCode,
-            events: eventsData ,
-            eventColor: 'blue',
-            weekNumbers: true,
-            weekText: 'S'
-        });            
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: '/api/shifts', // Obtiene los turnos desde la API
+            eventClick: function(info) {
+                if (info.event.extendedProps.status === 'disponible') {
+                    window.location.href = `/shifts/${info.event.id}`;
+                } else if (info.event.extendedProps.status === 'ocupado') {
+                    alert('Turno ya reservado por otro usuario.');
+                }
+            },
+            dateClick: function(info) {
+                // Redirige al formulario para crear un turno en el día seleccionado
+                window.location.href = `/shifts/create?date=${info.dateStr}`;
+            },
+            
+        });
 
         calendar.render();
     });
